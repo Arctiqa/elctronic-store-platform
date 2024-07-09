@@ -1,12 +1,13 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
 
-from electronic_network.models import NetworkNode
+from electronic_network.models import SupplierNode
 
 
-@admin.register(NetworkNode)
-class NetworkNode(admin.ModelAdmin):
-    list_display = ('name', 'type', 'email', 'country', 'city', 'supplier', 'debts', 'created_at')
-    list_filter = ('city',)
+@admin.register(SupplierNode)
+class SupplierAdmin(admin.ModelAdmin):
+    list_display = ('name', 'type', 'supplier', 'debts', 'created_at')
 
     def clear_debts_to_supplier(self, request, queryset):
         updated_count = queryset.update(debts=0)
