@@ -10,12 +10,19 @@ node_type = {
 class SupplierNode(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название')
     type = models.CharField(max_length=30, choices=node_type, verbose_name='Тип структуры')
-    contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, verbose_name='Контакты')
-    supplier = models.ForeignKey('SupplierNode', on_delete=models.SET_NULL, null=True, blank=True, related_name='Поставщик')
+    supplier = models.ForeignKey('SupplierNode', on_delete=models.SET_NULL, null=True, blank=True,
+                                 verbose_name='Поставщик')
     debts = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name='Задолженность')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
 
-    hierarchy_level = models.IntegerField(blank=True, verbose_name="Уровень в иерархии")
+    hierarchy_level = models.IntegerField(null=True, blank=True, verbose_name="Уровень иерархии")
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.hierarchy_level = self.get_level()
+        super(SupplierNode, self).save(*args, **kwargs)
 
     def get_level(self):
         if self.supplier is None:
@@ -26,11 +33,12 @@ class SupplierNode(models.Model):
         return self.hierarchy_level
 
     class Meta:
-        verbose_name = 'Звено'
-        verbose_name_plural = 'Звенья'
+        verbose_name = 'Поставщик'
+        verbose_name_plural = 'Поставщик'
 
 
 class Contacts(models.Model):
+    node = models.ForeignKey('SupplierNode', on_delete=models.CASCADE, verbose_name='Поставщик', related_name='contacts')
     email = models.EmailField(verbose_name='Email')
     country = models.CharField(max_length=100, verbose_name='Страна')
     city = models.CharField(max_length=100, verbose_name='Город')
@@ -46,7 +54,7 @@ class Contacts(models.Model):
 
 
 class Product(models.Model):
-    node = models.ManyToManyField('SupplierNode', related_name='Сеть')
+    node = models.ManyToManyField('SupplierNode', verbose_name='Сеть', related_name='products')
     name = models.CharField(max_length=255, verbose_name='Название продукта')
     model = models.CharField(max_length=255, verbose_name='Модель')
     release_date = models.DateField(auto_now_add=True)
