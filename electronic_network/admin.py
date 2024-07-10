@@ -1,6 +1,4 @@
 from django.contrib import admin
-from django.urls import reverse
-from django.utils.html import format_html
 
 from electronic_network.models import SupplierNode, Contacts, Product
 
@@ -30,7 +28,7 @@ class SupplierAdmin(admin.ModelAdmin):
 
 @admin.register(Contacts)
 class ContactsAdmin(admin.ModelAdmin):
-    list_display = ('node', 'email', 'country', 'city', 'street', 'house')
+    list_display = ('supplier', 'email', 'country', 'city', 'street', 'house')
     list_filter = ('city',)
 
 

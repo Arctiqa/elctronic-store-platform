@@ -6,16 +6,16 @@ from electronic_network.models import SupplierNode, Product, Contacts
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('node', 'name', 'model', 'release_date')
+        fields = ('supplier', 'name', 'model', 'release_date')
 
 
 class ContactsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contacts
-        fields = ('node', 'email', 'country', 'city', 'street', 'house')
+        fields = ('supplier', 'email', 'country', 'city', 'street', 'house')
 
 
-class NodeSerializer(serializers.ModelSerializer):
+class SupplierSerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True, read_only=True)
     contacts = ContactsSerializer(many=True, read_only=True)
 

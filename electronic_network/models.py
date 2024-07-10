@@ -1,6 +1,6 @@
 from django.db import models
 
-node_type = {
+NODE_TYPE = {
     ('factory', 'Завод'),
     ('retail_network', 'Розничная сеть'),
     ('entrepreneur', 'ИП')
@@ -9,7 +9,7 @@ node_type = {
 
 class SupplierNode(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название')
-    type = models.CharField(max_length=30, choices=node_type, verbose_name='Тип структуры')
+    type = models.CharField(max_length=30, choices=NODE_TYPE, verbose_name='Тип структуры')
     supplier = models.ForeignKey('SupplierNode', on_delete=models.SET_NULL, null=True, blank=True,
                                  verbose_name='Поставщик')
     debts = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name='Задолженность')
@@ -34,11 +34,12 @@ class SupplierNode(models.Model):
 
     class Meta:
         verbose_name = 'Поставщик'
-        verbose_name_plural = 'Поставщик'
+        verbose_name_plural = 'Поставщиков'
 
 
 class Contacts(models.Model):
-    node = models.ForeignKey('SupplierNode', on_delete=models.CASCADE, verbose_name='Поставщик', related_name='contacts')
+    supplier = models.ForeignKey('SupplierNode', on_delete=models.CASCADE, verbose_name='Поставщик',
+                                 related_name='contacts')
     email = models.EmailField(verbose_name='Email')
     country = models.CharField(max_length=100, verbose_name='Страна')
     city = models.CharField(max_length=100, verbose_name='Город')
@@ -54,7 +55,7 @@ class Contacts(models.Model):
 
 
 class Product(models.Model):
-    node = models.ManyToManyField('SupplierNode', verbose_name='Сеть', related_name='products')
+    supplier = models.ManyToManyField('SupplierNode', verbose_name='Сеть', related_name='products')
     name = models.CharField(max_length=255, verbose_name='Название продукта')
     model = models.CharField(max_length=255, verbose_name='Модель')
     release_date = models.DateField(auto_now_add=True)
