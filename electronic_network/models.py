@@ -34,7 +34,7 @@ class SupplierNode(models.Model):
 
     class Meta:
         verbose_name = 'Поставщик'
-        verbose_name_plural = 'Поставщиков'
+        verbose_name_plural = 'Поставщики'
 
 
 class Contacts(models.Model):
