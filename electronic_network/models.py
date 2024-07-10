@@ -8,6 +8,8 @@ NODE_TYPE = {
 
 
 class SupplierNode(models.Model):
+    """Модель для описания узла в цепи поставщиков"""
+
     name = models.CharField(max_length=100, verbose_name='Название')
     type = models.CharField(max_length=30, choices=NODE_TYPE, verbose_name='Тип структуры')
     supplier = models.ForeignKey('SupplierNode', on_delete=models.SET_NULL, null=True, blank=True,
@@ -38,6 +40,8 @@ class SupplierNode(models.Model):
 
 
 class Contacts(models.Model):
+    """Контакты, предоставляемые поставщиком"""
+
     supplier = models.ForeignKey('SupplierNode', on_delete=models.CASCADE, verbose_name='Поставщик',
                                  related_name='contacts')
     email = models.EmailField(verbose_name='Email')
@@ -55,6 +59,8 @@ class Contacts(models.Model):
 
 
 class Product(models.Model):
+    """Модель продуктов, предоставляемых поставщиком"""
+
     supplier = models.ManyToManyField('SupplierNode', verbose_name='Сеть', related_name='products')
     name = models.CharField(max_length=255, verbose_name='Название продукта')
     model = models.CharField(max_length=255, verbose_name='Модель')

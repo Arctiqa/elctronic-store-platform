@@ -9,6 +9,8 @@ class SupplierAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'get_supplier', 'debts', 'created_at', 'hierarchy_level', 'get_products')
 
     def clear_debts_to_supplier(self, request, queryset):
+        """Функция для очистки задолженности перед поставщиком в административной панели"""
+
         updated_count = queryset.update(debts=0)
         self.message_user(request, f'Успешно очищено задолженность у {updated_count} объектов.')
 

@@ -1,4 +1,3 @@
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import serializers
 
 from electronic_network.models import SupplierNode, Product, Contacts
@@ -23,4 +22,4 @@ class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupplierNode
         fields = ('id', 'name', 'type', 'supplier', 'debts', 'hierarchy_level', 'products', 'contacts')
-        read_only_fields = ('debts',)
+        read_only_fields = ('debts',)  # запрет на обновление через API поля задолженность
