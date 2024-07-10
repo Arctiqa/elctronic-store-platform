@@ -2,12 +2,15 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from electronic_network.models import Contacts
+from electronic_network.paginators import Pagination
 from electronic_network.serializers import ContactsSerializer
 
 
 class ContactsListAPIView(generics.ListAPIView):
     queryset = Contacts.objects.all()
     serializer_class = ContactsSerializer
+    pagination_class = Pagination
+
     permission_classes = [IsAuthenticated]
 
 
