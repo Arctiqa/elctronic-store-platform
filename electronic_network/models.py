@@ -65,7 +65,7 @@ class Product(models.Model):
 
     supplier = models.ManyToManyField('SupplierNode', verbose_name='Сеть', related_name='products')
     name = models.CharField(max_length=255, verbose_name='Название продукта')
-    model = models.CharField(max_length=255, verbose_name='Модель')
+    model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Модель')
     release_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
