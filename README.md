@@ -49,8 +49,12 @@
 **4.** Примените миграции:
 * ### `python manage.py migrate`
 
-**5.** Загрузить тестовые данные командой: python manage.py loaddata data.json
+**5.** Загрузить тестовые данные командой: 
+* ### `python manage.py loaddata data.json`
 
-**6.** Запустить приложение
+**6.** Создайте суперпользователя командой:
+* ### `python manage.py csu`
+
+**7.** Запустить приложение
 
 * ### `python manage.py runserver`
