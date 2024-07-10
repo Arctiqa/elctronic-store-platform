@@ -2,12 +2,18 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 from electronic_network.models import SupplierNode
+from electronic_network.paginators import Pagination
 from electronic_network.serializers import SupplierSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class SupplierListAPIView(generics.ListAPIView):
     queryset = SupplierNode.objects.all()
     serializer_class = SupplierSerializer
+    pagination_class = Pagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ('country',)
+
     permission_classes = [IsAuthenticated]
 
 
