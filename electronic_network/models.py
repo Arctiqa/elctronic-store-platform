@@ -27,6 +27,8 @@ class SupplierNode(models.Model):
         super(SupplierNode, self).save(*args, **kwargs)
 
     def get_level(self):
+        """Функция получения уровня иерархии в цепи поставщиков"""
+
         if self.supplier is None:
             self.hierarchy_level = 0
         else:
