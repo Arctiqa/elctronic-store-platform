@@ -12,7 +12,7 @@ class SupplierListAPIView(generics.ListAPIView):
     serializer_class = SupplierSerializer
     pagination_class = Pagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ('country',)
+    filterset_fields = ('contacts__country',)
 
     permission_classes = [IsAuthenticated]
 
